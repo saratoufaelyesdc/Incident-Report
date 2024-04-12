@@ -38,6 +38,19 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+.copied-alert {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4CAF50;
+  color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
 </style>
   </head>
   <body>
@@ -179,8 +192,16 @@ copyButton.addEventListener("click", function() {
   // Deselect the text
   selection.removeAllRanges();
   
-  // Alert the user that the text has been copied
-  alert("Text copied to clipboard!");
+  // Create and append the "Copied" alert element
+  var copiedAlert = document.createElement("div");
+  copiedAlert.textContent = "Copied!";
+  copiedAlert.classList.add("copied-alert");
+  document.body.appendChild(copiedAlert);
+  
+  // Hide the "Copied" alert after 2 seconds
+  setTimeout(function() {
+    document.body.removeChild(copiedAlert);
+  }, 1000);
 });
 
 </script>
