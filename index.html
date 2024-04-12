@@ -88,6 +88,7 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <p id="modalMessage"></p>
+    <button type="button" id="copyButton">Copy Text</button>
   </div>
 </div>
 
@@ -158,6 +159,29 @@ span.onclick = function() {
   modal.style.display = "none";
 };
 
+// Copy button functionality
+var copyButton = document.getElementById("copyButton");
+copyButton.addEventListener("click", function() {
+  var modalContent = document.getElementById("modalMessage");
+  
+  // Select the modal content text
+  var range = document.createRange();
+  range.selectNodeContents(modalContent);
+  
+  // Create a selection object
+  var selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+  
+  // Execute the copy command
+  document.execCommand("copy");
+  
+  // Deselect the text
+  selection.removeAllRanges();
+  
+  // Alert the user that the text has been copied
+  alert("Text copied to clipboard!");
+});
 
 </script>
   </body>
