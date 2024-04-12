@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="UTF-8">
+  <head>
+    <title>Incident Report to be submitted to SSC via Onyx Incident Report</title>
+    <style>
+/* CSS for modal dialog */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
+  </head>
+  <body>
+    
+    <form id="myForm">
+      <p>Q1: Are multiple users affected?</p>
+<p><input id="yes" name="multiple_users" type="radio" value="Yes" /> <label for="yes">Yes</label><br /> <input id="no" name="multiple_users" type="radio" value="No" /> <label for="no">No</label></p>
+<p>Q2: Device Category</p>
+<p><input id="smartphone" name="device_category" type="radio" value="Smartphone" /> <label for="smartphone">Smartphone</label><br /> <input id="voiceonly" name="device_category" type="radio" value="Voice only" /> <label for="voiceonly">Voice only</label><br /><input id="dataonly" name="device_category" type="radio" value="Data only" /> <label for="dataonly">Data only</label><br /><input id="its" name="device_category" type="radio" value="International Travel Service (ITS)" /> <label for="its">International Travel Service (ITS)</label></p>
+<p>Q3: Device Type</p>
+<p><input id="android" name="device_type" type="radio" value="Android (Smartphone)" /> <label for="android">Android (Smartphone) </label><br /> <input id="iPhone" name="device_type" type="radio" value="iPhone (Smartphone)" /> <label for="iPhone">iPhone (Smartphone) </label><br /> <input id="cellular" name="device_type" type="radio" value="Cellular (Voice only)" /> <label for="cellular"> Cellular (Voice only) </label><br /> <input id="pushtotalk" name="device_type" type="radio" value="Push to Talk (Voice only)" /> <label for="its">Push to Talk (Voice only) </label></p>
+<p>Q4: Device Model</p>
+<p><textarea id="devicemodel" cols="40" name="device_model" rows="1" placeholder="example: iPhone 12 mini"></textarea></p>
+<p>Q5: Device IMEI Number</p>
+<p><textarea id="imeinumber" cols="40" name="imei_number" rows="1" placeholder="15 digits"></textarea></p>
+<p>Q6: Sim Card Number</p>
+<p><textarea id="simnumber" cols="40" name="sim_number" rows="1" placeholder="18-22 digits"></textarea></p>
+<p>Q7: Details of the incident</p>
+<p><textarea id="incidentdetails" cols="40" name="incident_details" rows="5" placeholder="insert detailed description of ongoing issue "></textarea></p>
+<p>Q9: Error message displayed (if applicable)</p>
+<p><textarea id="errormessage" cols="40" name="error_message" rows="5" placeholder="type N/A if not applicable "></textarea></p>
+<p>Q10: Possible impact on deadlines (if applicable)</p>
+<p><textarea id="impactmessage" cols="40" name="impact_message" rows="5" placeholder="type N/A if not applicable "></textarea></p>
+<p>Q11: When did the incident occur?</p>
+<p><textarea id="incidentdate" cols="40" name="incident_date" rows="1" placeholder="MM/DD/YYYY "></textarea></p>
+<p>Q12: Has troubleshooting been attempted by the End User, Partner Service Desk or a support team?</p>
+<p><strong> Yes </strong></p>
+<p>Q13: Description of the troubleshooting steps performed - Please provide any steps and/or additional information to resolve this issue.</p>
+<p><textarea id="troubleshootdetails" cols="40" name="troubleshoot_details" rows="5">	
+- (insert steps you have taken)
+- Software up-to-date 
+- Device has been wiped an re-activated  </textarea></p>
+<p><small> * If device issue is battery related (ex. Fast draining, overheating), please add: <br /> - Software up-to-date <br /> - Verified battery health and removed personal downloaded apps that caused high battery usage <br /> - Rebooted device <br /> - Turned off background usage of apps not being used <br /> - Turned off Wi-Fi, Bluetooth, location services when not being used <br /> - Device has been wiped an re-activated </small></p>
+<p>Q14: Add attachment if needed</p>
+<p><input id="yesphotoattached" name="photo_attached" type="radio" value="Photo attached to SRMIS ticket" /> <label for="yesphotoattached">Photo attached to SRMIS ticket</label><br /> <input id="noattachedphoto" name="photo_attached" type="radio" value="No photo attached to SRMIS ticket" /> <label for="noattachedphoto">No photo attached to SRMIS ticket</label></p>
+<p>Q15:Confirm that the service is outside of support hours</p>
+<p><strong> No </strong></p>
+<p>Q16: Verify if the CBAS or Designated Site is currently under a Heightened Awareness Window (HAW)</p>
+<p><strong> No </strong></p>
+<p>Q17: Verify if the CBAS or DS is currently supporting an IT Emergency Response State</p>
+<p><strong> No </strong></p>
+<p><button id="submitButton" type="button">Submit </button></p>
+</form>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p id="modalMessage"></p>
+  </div>
+</div>
+
+<script>
+
+var modal = document.getElementById("myModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// Select the button element
+var button = document.getElementById("submitButton");
+
+// Add a click event listener to the button
+button.addEventListener("click", function() {
+  
+  var answer1 = document.querySelector('input[name="multiple_users"]:checked');
+  
+  var answer2 = document.querySelector('input[name="device_category"]:checked');
+  
+  var answer3 = document.querySelector('input[name="device_type"]:checked');
+  
+  var answer4 = document.getElementById("devicemodel").value;
+  
+  var answer5 = document.getElementById("imeinumber").value;
+  
+  var answer6 = document.getElementById("simnumber").value;
+  
+  var answer7 = document.getElementById("incidentdetails").value;
+  
+  var answer9 = document.getElementById("errormessage").value;
+  
+  var answer10 = document.getElementById("impactmessage").value;
+  
+  var answer11 = document.getElementById("incidentdate").value;
+  
+  var answer13 = document.getElementById("troubleshootdetails").value;
+  
+  var answer14 = document.querySelector('input[name="photo_attached"]:checked');
+  
+  document.getElementById("modalMessage").innerHTML  = 
+  
+  "Q1: Are multiple users affected? " + answer1.value+
+  "<br> Q2: Device Category: " + answer2.value +
+  "<br> Q3: Device Type: " + answer3.value +
+  "<br> Q4: Device Model: " + answer4 +
+  "<br> Q5: Device IMEI Number: " + answer5 + 
+  "<br> Q6: Sim Card Number: " + answer6 + 
+  "<br> Q7: Details of the incident: <br> " + answer7 +
+  "<br> Q9: Error message displayed (if applicable) <br> " + answer9 +
+  "<br> Q10: Possible impact on deadlines (if applicable) <br> " + answer10 +
+  "<br> Q11: When did the incident occur? " + answer11 +
+  "<br> Q12: Has troubleshooting been attempted by the End User, Partner Service Desk or a support team? Yes"
+  + "<br> Q13: Description of the troubleshooting steps performed - Please provide any steps and/or additional information to resolve this issue. <br> " + answer13
+  + "<br> Q14: Add attachment if needed " + answer14.value +
+  "<br> Q15:Confirm that the service is outside of support hours <br> No <br> Q16: Verify if the CBAS or Designated Site is currently under a Heightened Awareness Window (HAW) <br> No <br> Q17: Verify if the CBAS or DS is currently supporting an IT Emergency Response State <br> No <br> "
+  
+  ;
+    
+    // Show the modal
+    modal.style.display = "block";
+    
+  
+    
+});
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+};
+
+
+</script>
+  </body>
+</html>
