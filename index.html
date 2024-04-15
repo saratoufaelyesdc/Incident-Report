@@ -133,6 +133,14 @@ var button = document.getElementById("submitButton");
 
 // Add a click event listener to the button
 button.addEventListener("click", function() {
+
+  var imeiNumber = document.getElementById("imeinumber").value;
+
+   // Check if the input is a 15-digit number
+  if (/^\d{15}$/.test(imeiNumber)) {
+    // Proceed with form submission
+    // Your existing code for form submission here
+    
   
   var answer1 = document.querySelector('input[name="multiple_users"]:checked');
   
@@ -179,7 +187,10 @@ button.addEventListener("click", function() {
     
     // Show the modal
     modal.style.display = "block";
-    
+  } else {
+    // Display an error message
+    alert("Please enter a 15-digit number for the IMEI Number.");
+  }
   
     
 });
