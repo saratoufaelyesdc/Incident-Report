@@ -133,14 +133,6 @@ var button = document.getElementById("submitButton");
 
 // Add a click event listener to the button
 button.addEventListener("click", function() {
-
-  var imeiNumber = document.getElementById("imeinumber").value;
-
-   // Check if the input is a 15-digit number
-  if (/^\d{15}$/.test(imeiNumber)) {
-    // Proceed with form submission
-    // Your existing code for form submission here
-    
   
   var answer1 = document.querySelector('input[name="multiple_users"]:checked');
   
@@ -166,6 +158,19 @@ button.addEventListener("click", function() {
   
   var answer14 = document.querySelector('input[name="photo_attached"]:checked');
   
+  var imeiNumber = document.getElementById("imeinumber").value.trim();
+  
+  if (!isValidIMEI(imeiNumber)) {
+    alert("IMEI number must be exactly 15 digits long.");
+    return; // Exit the function early if validation fails
+  }
+
+  var simNumber = document.getElementById("simnumber").value.trim();
+  if (!isValidSIM(simNumber)) {
+    alert("SIM card number must be between 18 and 22 digits long.");
+    return; // Exit the function early if validation fails
+  }
+  
   document.getElementById("modalMessage").innerHTML  = 
   
   "Please reassign to : DISTRIBUTION-SERVICES <br> Phone will need to be replaced <br> Incident Report to be submitted to SSC via Onyx Incident Report <br> Q1: Are multiple users affected? " + answer1.value+
@@ -187,13 +192,18 @@ button.addEventListener("click", function() {
     
     // Show the modal
     modal.style.display = "block";
-  } else {
-    // Display an error message
-    alert("Please enter a 15-digit number for the IMEI Number.");
-  }
+    
   
     
 });
+
+function isValidIMEI(imei) {
+  return /^\d{15}$/.test(imei);
+}
+
+function isValidSIM(sim) {
+  return /^\d{18,22}$/.test(sim);
+}
 
 // When the user clicks on <span> (x), close the modal
 span.onclick = function() {
